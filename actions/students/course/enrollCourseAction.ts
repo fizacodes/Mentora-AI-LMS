@@ -1,67 +1,51 @@
+"use server"
+
 import { getCurrentUser } from "@/lib/getCurrentUser";
 
 import { enrollCourseSchema } from "@/lib/validators/courseSchema";
 import { enrollCourse } from "@/services/students/course/enrollCourse";
 import { getEnrolledCourses } from "@/services/students/course/getEnrolledCourse";
+import { ActionResponse } from "@/type/response";
 
 
 
 export async function enrollCourseAction(
-  data: unknown
+  prevState: unknown,
+  formData: FormData
 ) {
-
   const user = await getCurrentUser();
-
 
   if (!user.success) {
     return {
       success: false,
-      error: "Unauthorized",
+      error: user.message,
     };
   }
 
-
-  const validated =
-    enrollCourseSchema.safeParse(data);
-
-
-  if (!validated.success) {
-    return {
-      success: false,
-      error: "Invalid course data",
-    };
-  }
-
+  const course = JSON.parse(
+    formData.get("course") as string
+  );
 
   try {
-
-    const result = await enrollCourse(
+    await enrollCourse(
       user.userId,
-      validated.data
+      course
     );
-
 
     return {
       success: true,
-      data: result,
+      error: "",
     };
-
-
   } catch (error) {
-
-    console.error(
-      "Enrollment error:",
-      error
-    );
-
+    console.error(error);
 
     return {
       success: false,
-      error: "Failed to enroll course",
+      error: "Failed to enroll in course.",
     };
-
   }
 }
+
 
 export async function getEnrolledCoursesAction() {
 

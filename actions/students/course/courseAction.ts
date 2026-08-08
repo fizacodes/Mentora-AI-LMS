@@ -5,84 +5,82 @@ import { generateCoursePreview } from "@/services/students/course/courseService"
 import { getCourseDetails } from "@/services/students/course/getCourseDetail";
 import { getCurrentUser } from "@/lib/getCurrentUser";
 
+
 export async function generateCoursePreviewAction(
-  data: {
-    query:string;
-  }
+  prevState: unknown,
+  formData: FormData
 ) {
+  const result = courseSearchSchema.safeParse({
+    query: formData.get("topic"),
+  });
 
-
-  const result =
-    courseSearchSchema.safeParse(data);
-
-
-  if(!result.success){
-
+  if (!result.success) {
     return {
-      success:false,
-      error:"Invalid topic"
+      success: false,
+      error: "Invalid topic",
+      data: null,
     };
-
   }
 
-
-  const course =
-    await generateCoursePreview(
-      result.data.query
-    );
-
+  const course = await generateCoursePreview(
+    result.data.query
+  );
 
   return {
-    success:true,
-    data:course
+    success: true,
+    error: "",
+    data: course,
   };
-
 }
+import type { ActionResponse } from "@/type/response";
+import type { CourseDetailsPayload } from "@/type/response";
 
 export async function getCourseDetailsAction(
   courseId: string
-) {
+): Promise<ActionResponse<CourseDetailsPayload>> {
 
   const user = await getCurrentUser();
 
-
   if (!user.success) {
     return {
-      success:false,
-      error:user.message,
+      success: false,
+      message: user.message,
     };
   }
 
 
   try {
+    const result = await getCourseDetails(
+      courseId,
+      user.userId
+    );
 
-    const course =
-      await getCourseDetails(
-        courseId,
-        user.userId
-      );
+
+    if (!result.success) {
+      return {
+        success: false,
+        message: result.error,
+      };
+    }
 
 
     return {
-      success:true,
-      data:course,
+      success: true,
+      message: "Course fetched successfully",
+      data: result.data,
     };
 
 
-  } catch(error) {
+  } catch (error) {
 
     console.error(
       "Course details error:",
       error
     );
 
-
     return {
-      success:false,
-      error:"Failed to fetch course",
+      success: false,
+      message: "Failed to fetch course",
     };
-
   }
-
 }
-

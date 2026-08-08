@@ -234,6 +234,7 @@ model LessonQuiz {
   lesson    Lesson          @relation(fields: [lessonId], references: [id], onDelete: Cascade)
   questions QuizQuestion[]
   attempts  QuizAttempt[]
+  updatedAt DateTime @updatedAt
 }
 
 model QuizQuestion {

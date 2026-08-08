@@ -1,5 +1,5 @@
 // types/response.ts
-
+import { Prisma } from "@/generated/prisma/client";
 export type ActionResponse<T> =
   | {
       success: true;
@@ -25,3 +25,37 @@ export type ActionResponse<T> =
     }[];
   }[];
 };
+
+
+export type LessonPayload =
+  Prisma.LessonGetPayload<{
+    include: {
+      module: {
+        include: {
+          course: true;
+        };
+      };
+    };
+  }>;
+
+
+
+
+
+export type CourseDetailsPayload =
+  Prisma.CourseGetPayload<{
+    include: {
+      modules: {
+        orderBy: {
+          order: "asc";
+        };
+        include: {
+          lessons: {
+            orderBy: {
+              order: "asc";
+            };
+          };
+        };
+      };
+    };
+  }>;
