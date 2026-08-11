@@ -76,11 +76,21 @@ Rules:
 - Return only JSON.
 `;
 
-  const response = await chatModel.invoke(prompt);
+const response = await chatModel.invoke(prompt);
 
-  const quizData = quizResponseSchema.parse(
-    JSON.parse(response.content.toString())
-  );
+const rawContent = response.content
+  .toString()
+  .trim();
+
+const cleanedContent = rawContent
+  .replace(/^```json\s*/i, "")
+  .replace(/^```\s*/i, "")
+  .replace(/\s*```$/i, "")
+  .trim();
+
+const quizData = quizResponseSchema.parse(
+  JSON.parse(cleanedContent)
+);
 
   const quiz = await prisma.lessonQuiz.create({
     data: {

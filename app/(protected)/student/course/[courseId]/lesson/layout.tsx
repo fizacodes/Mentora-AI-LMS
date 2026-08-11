@@ -17,25 +17,35 @@ export default async function LessonLayout({
 }: Props) {
   const { courseId } = await params;
 
-  const result =
-    await getCourseDetailsAction(courseId);
+  const result = await getCourseDetailsAction(courseId);
 
   if (!result.success) {
     return (
-      <div className="p-6">
-        {result.message}
+      <div className="flex min-h-screen items-center justify-center bg-[#061521] px-6">
+        <div className="rounded-2xl border border-red-500/20 bg-[#081B2D] p-8 text-red-400">
+          {result.message}
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="grid min-h-screen grid-cols-12">
-      <aside className="col-span-3 border-r hidden lg:block">
-        <CourseSidebar course={result.data} />
+    <div className="fixed inset-0 flex overflow-hidden bg-[#061521]">
+      {/* ================= SIDEBAR ================= */}
+
+      <aside className="hidden h-full w-80 shrink-0 overflow-hidden border-r border-slate-800 lg:block">
+        <CourseSidebar
+          course={result.data}
+          progress={0}
+        />
       </aside>
 
-      <main className="col-span-12 lg:col-span-9">
-        {children}
+      {/* ================= MAIN CONTENT ================= */}
+
+      <main className="min-h-0 min-w-0 flex-1 overflow-y-auto">
+        <div className="mx-auto w-full max-w-5xl px-6 py-8 lg:px-10">
+          {children}
+        </div>
       </main>
     </div>
   );

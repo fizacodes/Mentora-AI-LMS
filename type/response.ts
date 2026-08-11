@@ -41,7 +41,6 @@ export type LessonPayload =
 
 
 
-
 export type CourseDetailsPayload =
   Prisma.CourseGetPayload<{
     include: {
@@ -54,8 +53,80 @@ export type CourseDetailsPayload =
             orderBy: {
               order: "asc";
             };
+            include: {
+              progress: true;
+            };
           };
         };
       };
     };
   }>;
+
+  export type StudentDashboardData = {
+  enrolledCourses: {
+    id: string;
+    title: string;
+    description: string;
+    thumbnail: string | null;
+    difficulty: "BEGINNER" | "INTERMEDIATE" | "ADVANCED";
+    progress: number;
+    completedLessons: number;
+    totalLessons: number;
+
+    nextLesson: {
+      id: string;
+      title: string;
+    } | null;
+
+    enrolledAt: Date;
+  }[];
+
+  overallProgress: number;
+
+  completedCourses: {
+    id: string;
+    title: string;
+    description: string;
+    thumbnail: string | null;
+    difficulty: "BEGINNER" | "INTERMEDIATE" | "ADVANCED";
+    progress: number;
+    completedLessons: number;
+    totalLessons: number;
+
+    nextLesson: {
+      id: string;
+      title: string;
+    } | null;
+
+    enrolledAt: Date;
+  }[];
+
+  continueLearning: {
+    id: string;
+    title: string;
+    description: string;
+    thumbnail: string | null;
+    difficulty: "BEGINNER" | "INTERMEDIATE" | "ADVANCED";
+    progress: number;
+    completedLessons: number;
+    totalLessons: number;
+
+    nextLesson: {
+      id: string;
+      title: string;
+    } | null;
+
+    enrolledAt: Date;
+  } | null;
+
+  recentQuizScores: {
+    id: string;
+    score: number;
+    passed: boolean;
+    attemptedAt: Date;
+    quizId: string;
+    lessonTitle: string;
+    courseId: string;
+    courseTitle: string;
+  }[];
+};

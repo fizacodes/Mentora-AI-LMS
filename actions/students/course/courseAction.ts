@@ -4,6 +4,7 @@ import { courseSearchSchema } from "@/lib/validators/courseSchema";
 import { generateCoursePreview } from "@/services/students/course/courseService";
 import { getCourseDetails } from "@/services/students/course/getCourseDetail";
 import { getCurrentUser } from "@/lib/getCurrentUser";
+import { ActionResponse, CourseDetailsPayload } from "@/type/response";
 
 
 export async function generateCoursePreviewAction(
@@ -32,13 +33,22 @@ export async function generateCoursePreviewAction(
     data: course,
   };
 }
-import type { ActionResponse } from "@/type/response";
-import type { CourseDetailsPayload } from "@/type/response";
+
+
+type GetCourseDetailsResult =
+  | {
+      success: true;
+      data: CourseDetailsPayload;
+      progress: number;
+    }
+  | {
+      success: false;
+      message: string;
+    };
 
 export async function getCourseDetailsAction(
   courseId: string
-): Promise<ActionResponse<CourseDetailsPayload>> {
-
+): Promise<GetCourseDetailsResult> {
   const user = await getCurrentUser();
 
   if (!user.success) {
@@ -48,13 +58,11 @@ export async function getCourseDetailsAction(
     };
   }
 
-
   try {
     const result = await getCourseDetails(
       courseId,
       user.userId
     );
-
 
     if (!result.success) {
       return {
@@ -63,24 +71,20 @@ export async function getCourseDetailsAction(
       };
     }
 
-
     return {
       success: true,
-      message: "Course fetched successfully",
       data: result.data,
+      progress: result.progress,
     };
-
-
   } catch (error) {
-
     console.error(
-      "Course details error:",
+      "Get course details error:",
       error
     );
 
     return {
       success: false,
-      message: "Failed to fetch course",
+      message: "Failed to load course.",
     };
   }
 }

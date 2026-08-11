@@ -1,8 +1,15 @@
+"use server"
+
 import { getQuiz } from "@/services/students/course/getQuiz";
 import { generateQuizSchema, submitQuizSchema } from "@/lib/validators/courseSchema";
 import { getCurrentUser } from "@/lib/getCurrentUser";
 import { submitQuiz } from "@/services/students/course/submitQuiz";
 import { ActionResponse } from "@/type/response";
+
+
+
+
+
 export type QuizPayload = {
   id: string;
   lessonId: string;
@@ -16,9 +23,10 @@ export type QuizPayload = {
     order: number;
   }[];
 };
+
 export async function getQuizAction(
   data: unknown
-) :Promise<ActionResponse<QuizPayload>>{
+): Promise<ActionResponse<QuizPayload>> {
   const user = await getCurrentUser();
 
   if (!user.success) {
@@ -38,16 +46,27 @@ export async function getQuizAction(
   }
 
   try {
-    const quiz = await getQuiz(
+    const result = await getQuiz(
       user.userId,
       validated.data.courseId,
       validated.data.lessonId
     );
 
+    // IMPORTANT:
+    // getQuiz() can now return success:false
+    if (!result.success) {
+      return {
+        success: false,
+        message: result.message,
+      };
+    }
+
+    // IMPORTANT:
+    // Return result.data, NOT result itself
     return {
       success: true,
-      message:"Successful",
-      data: quiz,
+      message: "Successful",
+      data: result.data as QuizPayload,
     };
   } catch (error) {
     console.error("Get quiz error:", error);
@@ -60,6 +79,7 @@ export async function getQuizAction(
 }
 
 
+
 export async function submitQuizAction(
   data: unknown
 ) {
@@ -67,17 +87,18 @@ export async function submitQuizAction(
 
   if (!user.success) {
     return {
-      success: false,
+      success: false as const,
       message: user.message,
     };
   }
 
-  const validated = submitQuizSchema.safeParse(data);
+  const validated =
+    submitQuizSchema.safeParse(data);
 
   if (!validated.success) {
     return {
-      success: false,
-      error: "Invalid quiz submission.",
+      success: false as const,
+      message: "Invalid quiz submission.",
     };
   }
 
@@ -88,15 +109,26 @@ export async function submitQuizAction(
       answers: validated.data.answers,
     });
 
-    return {
-      success: true,
-      data: result,
-    };
-  } catch (error) {
-    console.error("Submit quiz error:", error);
+    if (!result.success) {
+      return {
+        success: false as const,
+        message: result.message,
+      };
+    }
 
     return {
-      success: false,
+      success: true as const,
+      message: result.message,
+      data: result.data,
+    };
+  } catch (error) {
+    console.error(
+      "Submit quiz error:",
+      error
+    );
+
+    return {
+      success: false as const,
       message: "Failed to submit quiz.",
     };
   }

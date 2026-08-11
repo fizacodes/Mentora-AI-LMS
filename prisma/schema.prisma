@@ -31,6 +31,7 @@ model User {
 
   enrolledCourses UserCourse[]
   quizAttempts    QuizAttempt[]
+  lessonProgress  LessonProgress[]
 }
 
 model PendingUser {
@@ -194,6 +195,7 @@ model Lesson {
   quiz   LessonQuiz?
 
   @@unique([moduleId, order])
+  progress LessonProgress[]
 }
 
 
@@ -273,6 +275,22 @@ model QuizAttempt {
 }
 
 
+model LessonProgress {
+  id String @id @default(cuid())
+
+  userId   String
+  lessonId String
+
+  completed   Boolean  @default(false)
+  completedAt DateTime?
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  lesson Lesson @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, lessonId])
+  @@index([userId])
+  @@index([lessonId])
+}
 // =====================
 // ENUMS
 // =====================
