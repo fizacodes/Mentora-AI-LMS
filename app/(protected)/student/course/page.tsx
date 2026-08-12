@@ -7,10 +7,12 @@ import {
 } from "lucide-react";
 
 import SearchCourseForm from "./SearchCourseForm";
+import BackButton from "@/app/components/BackButton";
 
 export default function CoursePage() {
   return (
     <main className="min-h-full bg-[#061521] px-4 py-6 sm:px-6 lg:px-8">
+      <BackButton/>
       <div className="mx-auto w-full max-w-5xl">
 
         {/* Hero */}

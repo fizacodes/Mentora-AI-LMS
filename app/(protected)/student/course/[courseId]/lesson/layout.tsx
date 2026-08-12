@@ -31,19 +31,34 @@ export default async function LessonLayout({
 
   return (
     <div className="fixed inset-0 flex overflow-hidden bg-[#061521]">
-      {/* ================= SIDEBAR ================= */}
 
-      <aside className="hidden h-full w-80 shrink-0 overflow-hidden border-r border-slate-800 lg:block">
-        <CourseSidebar
-          course={result.data}
-          progress={0}
-        />
-      </aside>
+      {/* =====================================================
+          COURSE SIDEBAR
+          CourseSidebar handles desktop + mobile itself
+      ===================================================== */}
+      <CourseSidebar
+        course={result.data}
+        progress={0}
+      />
 
-      {/* ================= MAIN CONTENT ================= */}
-
+      {/* =====================================================
+          MAIN CONTENT
+      ===================================================== */}
       <main className="min-h-0 min-w-0 flex-1 overflow-y-auto">
-        <div className="mx-auto w-full max-w-5xl px-6 py-8 lg:px-10">
+        <div
+          className="
+            mx-auto
+            w-full
+            max-w-5xl
+            px-4
+            pb-8
+            pt-10
+            sm:px-6
+            sm:pt-10
+            lg:px-10
+            lg:pt-8
+          "
+        >
           {children}
         </div>
       </main>

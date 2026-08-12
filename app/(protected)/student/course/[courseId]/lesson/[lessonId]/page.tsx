@@ -2,6 +2,7 @@ import { getLessonAction } from "@/actions/students/course/lessonAction";
 import LessonViewer from "../../LessonViewer";
 import QuizViewer from "../../QuizViewer";
 import { AlertCircle } from "lucide-react";
+import BackButton from "@/app/components/BackButton";
 
 type Props = {
   params: Promise<{
@@ -42,6 +43,7 @@ export default async function LessonPage({
   if (!result.success) {
     return (
       <div className="flex min-h-full items-center justify-center px-6">
+       
         <div
           className="
             w-full

@@ -1,12 +1,173 @@
+// import { prisma } from "@/lib/prisma";
+// import { MessageRole } from "@/generated/prisma/enums";
+// import { Prisma } from "@/generated/prisma/client";
+// import type { ActionResponse } from "@/type/response";
+
+// export async function createConversation(userId: string) {
+//   const conversation = await prisma.conversation.create({
+//     data: {
+//       userId,
+//     },
+//   });
+
+//   return {
+//     success: true,
+//     message: "Conversation created successfully.",
+//     data: conversation,
+//   };
+// }
+
+
+
+
+
+// type ConversationWithMessages = Prisma.ConversationGetPayload<{
+//   include: {
+//     messages: {
+//       orderBy: {
+//         createdAt: "asc";
+//       };
+//     };
+//   };
+// }>;
+
+// export async function getConversation(
+//   userId: string,
+//   conversationId: string
+// ): Promise<ActionResponse<ConversationWithMessages>> {
+//   const conversation = await prisma.conversation.findFirst({
+//     where: {
+//       id: conversationId,
+//       userId,
+//     },
+//     include: {
+//       messages: {
+//         orderBy: {
+//           createdAt: "asc",
+//         },
+//       },
+//     },
+//   });
+
+//   if (!conversation) {
+//     return {
+//       success: false,
+//       message: "Conversation not found.",
+//     };
+//   }
+
+//   return {
+//     success: true,
+//     message: "Conversation fetched successfully.",
+//     data: conversation,
+//   };
+// }
+
+
+
+// export type ConversationSummary = Prisma.ConversationGetPayload<{
+//   select: {
+//     id: true;
+//     title: true;
+//     updatedAt: true;
+//   };
+// }>;
+
+// export async function getUserConversations(
+//   userId: string
+// ): Promise<ActionResponse<ConversationSummary[]>> {
+
+//   const conversations = await prisma.conversation.findMany({
+//     where: {
+//       userId,
+//     },
+//     orderBy: {
+//       updatedAt: "desc",
+//     },
+//     select: {
+//       id: true,
+//       title: true,
+//       updatedAt: true,
+//     },
+//   });
+
+
+//   return {
+//     success: true,
+//     message: "Conversations fetched successfully.",
+//     data: conversations,
+//   };
+// }
+
+// const MAX_HISTORY_MESSAGES = 10;
+
+// export async function getConversationHistory(
+//   userId: string,
+//   conversationId: string
+// ) {
+//   const conversation = await prisma.conversation.findFirst({
+//     where: {
+//       id: conversationId,
+//       userId,
+//     },
+//     select: {
+//       messages: {
+//         select: {
+//           role: true,
+//           content: true,
+//         },
+//         orderBy: {
+//           createdAt: "desc",
+//         },
+//         take: MAX_HISTORY_MESSAGES,
+//       },
+//     },
+//   });
+
+//   if (!conversation) {
+//     return {
+//       success: false,
+//       message: "Conversation not found.",
+//       data: [],
+//     };
+//   }
+
+//   return {
+//     success: true,
+//     message: "Conversation history fetched successfully.",
+//     data: [...conversation.messages].reverse(),
+//   };
+// }
+
+
 import { prisma } from "@/lib/prisma";
-import { MessageRole } from "@/generated/prisma/enums";
 import { Prisma } from "@/generated/prisma/client";
 import type { ActionResponse } from "@/type/response";
 
-export async function createConversation(userId: string) {
+// =====================
+// CREATE CONVERSATION
+// =====================
+
+export type CreatedConversation = Prisma.ConversationGetPayload<{
+  select: {
+    id: true;
+    title: true;
+    updatedAt: true;
+  };
+}>;
+
+export async function createConversation(
+  userId: string
+): Promise<ActionResponse<CreatedConversation>> {
   const conversation = await prisma.conversation.create({
     data: {
       userId,
+      title: "New Conversation",
+    },
+    select: {
+      id: true,
+      title: true,
+      updatedAt: true,
     },
   });
 
@@ -17,19 +178,20 @@ export async function createConversation(userId: string) {
   };
 }
 
+// =====================
+// GET SINGLE CONVERSATION
+// =====================
 
-
-
-
-type ConversationWithMessages = Prisma.ConversationGetPayload<{
-  include: {
-    messages: {
-      orderBy: {
-        createdAt: "asc";
+export type ConversationWithMessages =
+  Prisma.ConversationGetPayload<{
+    include: {
+      messages: {
+        orderBy: {
+          createdAt: "asc";
+        };
       };
     };
-  };
-}>;
+  }>;
 
 export async function getConversation(
   userId: string,
@@ -63,20 +225,22 @@ export async function getConversation(
   };
 }
 
+// =====================
+// GET USER CONVERSATIONS
+// =====================
 
-
-export type ConversationSummary = Prisma.ConversationGetPayload<{
-  select: {
-    id: true;
-    title: true;
-    updatedAt: true;
-  };
-}>;
+export type ConversationSummary =
+  Prisma.ConversationGetPayload<{
+    select: {
+      id: true;
+      title: true;
+      updatedAt: true;
+    };
+  }>;
 
 export async function getUserConversations(
   userId: string
 ): Promise<ActionResponse<ConversationSummary[]>> {
-
   const conversations = await prisma.conversation.findMany({
     where: {
       userId,
@@ -91,7 +255,6 @@ export async function getUserConversations(
     },
   });
 
-
   return {
     success: true,
     message: "Conversations fetched successfully.",
@@ -99,12 +262,60 @@ export async function getUserConversations(
   };
 }
 
+// =====================
+// UPDATE CONVERSATION TITLE
+// =====================
+
+export async function updateConversationTitle(
+  userId: string,
+  conversationId: string,
+  title: string
+): Promise<ActionResponse<null>> {
+  const conversation = await prisma.conversation.findFirst({
+    where: {
+      id: conversationId,
+      userId,
+    },
+  });
+
+  if (!conversation) {
+    return {
+      success: false,
+      message: "Conversation not found.",
+    };
+  }
+
+  await prisma.conversation.update({
+    where: {
+      id: conversationId,
+    },
+    data: {
+      title,
+    },
+  });
+
+  return {
+    success: true,
+    message: "Conversation title updated successfully.",
+    data: null,
+  };
+}
+
+// =====================
+// GET CONVERSATION HISTORY
+// =====================
+
 const MAX_HISTORY_MESSAGES = 10;
+
+export type ConversationHistoryMessage = {
+  role: "USER" | "ASSISTANT";
+  content: string;
+};
 
 export async function getConversationHistory(
   userId: string,
   conversationId: string
-) {
+): Promise<ActionResponse<ConversationHistoryMessage[]>> {
   const conversation = await prisma.conversation.findFirst({
     where: {
       id: conversationId,
@@ -128,7 +339,6 @@ export async function getConversationHistory(
     return {
       success: false,
       message: "Conversation not found.",
-      data: [],
     };
   }
 
@@ -138,3 +348,4 @@ export async function getConversationHistory(
     data: [...conversation.messages].reverse(),
   };
 }
+

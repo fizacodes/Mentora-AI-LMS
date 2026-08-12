@@ -11,6 +11,7 @@ import {
 import { createConversationAction } from "@/actions/students/chat/conversation";
 import { Prisma } from "@/generated/prisma/client";
 import type { ActionResponse } from "@/type/response";
+import BackButton from "@/app/components/BackButton";
 
 export type ConversationSummary =
   Prisma.ConversationGetPayload<{
@@ -57,8 +58,9 @@ export default function ChatSidebar({
         bg-[#081B2D]
       "
     >
+      <BackButton/>
       {/* ================= HEADER ================= */}
-      <div className="border-b border-slate-700/40 p-4">
+      <div className="border-b border-slate-700/40 p-4 ">
         <div className="mb-4 flex items-center gap-3">
           <div
             className="

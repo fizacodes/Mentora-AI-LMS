@@ -4,6 +4,7 @@ import {
   createConversationAction,
   getUserConversationsAction,
 } from "@/actions/students/chat/conversation";
+import BackButton from "@/app/components/BackButton";
 
 export default async function ChatPage() {
   const conversationsResult =
@@ -26,7 +27,8 @@ export default async function ChatPage() {
   if (!conversationResult.success) {
     return (
       <main className="flex h-screen items-center justify-center">
-        <p className="text-red-500">
+       
+        <p className="text-red-500 ">
           {conversationResult.message}
         </p>
       </main>

@@ -1,72 +1,7 @@
-// "use client";
 
-// import ChatSidebar from "./ChatSidebar";
-// import ChatInput from "./ChatInput";
-// import { Prisma } from "@/generated/prisma/client";
-
-// export type ConversationSummary =
-//   Prisma.ConversationGetPayload<{
-//     select: {
-//       id: true;
-//       title: true;
-//       updatedAt: true;
-//     };
-//   }>;
-
-// export type ConversationWithMessages =
-//   Prisma.ConversationGetPayload<{
-//     include: {
-//       messages: {
-//         orderBy: {
-//           createdAt: "asc";
-//         };
-//       };
-//     };
-//   }>;
-// type ChatLayoutProps = {
-//   conversationId: string;
-//   conversations: ConversationSummary[];
-//   messages: ConversationWithMessages["messages"];
-// };
-
-// export default function ChatLayout({
-//   conversationId,
-//   conversations,
-//   messages,
-// }: ChatLayoutProps) {
-//   return (
-//     <div className="flex h-screen overflow-hidden bg-[#061521]">
-//       {/* Sidebar */}
-//       <ChatSidebar
-//         conversations={conversations}
-//         activeConversationId={conversationId}
-//       />
-
-//       {/* Chat Area */}
-//       <main className="flex flex-1 flex-col">
-//         {/* Messages */}
-//         <div className="flex-1 overflow-y-auto p-6">
-//           {messages.map((message) => (
-//             <div key={message.id} className="mb-6">
-//               <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-slate-400">
-//                 {message.role}
-//               </p>
-
-//               <div className="rounded-2xl bg-slate-800 p-4 text-white">
-//                 {message.content}
-//               </div>
-//             </div>
-//           ))}
-//         </div>
-
-//         {/* Input */}
-//         <ChatInput conversationId={conversationId} />
-//       </main>
-//     </div>
-//   );
-// }
 "use client";
 
+import { useEffect, useRef } from "react";
 import ChatSidebar from "./ChatSidebar";
 import ChatInput from "./ChatInput";
 import { Prisma } from "@/generated/prisma/client";
@@ -103,6 +38,22 @@ export default function ChatLayout({
   conversations,
   messages,
 }: ChatLayoutProps) {
+  const messagesContainerRef = useRef<HTMLDivElement>(null);
+
+  // =====================
+  // SCROLL TO LAST MESSAGE
+  // =====================
+
+  useEffect(() => {
+    const container = messagesContainerRef.current;
+
+    if (!container) {
+      return;
+    }
+
+    container.scrollTop = container.scrollHeight;
+  }, [messages]);
+
   return (
     <div className="flex h-[calc(100vh-0px)] overflow-hidden bg-[#061521]">
       {/* ================= SIDEBAR ================= */}
@@ -117,7 +68,8 @@ export default function ChatLayout({
       {/* ================= CHAT AREA ================= */}
 
       <main className="flex min-w-0 flex-1 flex-col bg-[#061521]">
-        {/* Chat Header */}
+        {/* ================= CHAT HEADER ================= */}
+
         <header
           className="
             flex h-16 shrink-0
@@ -142,6 +94,7 @@ export default function ChatLayout({
         {/* ================= MESSAGES ================= */}
 
         <div
+          ref={messagesContainerRef}
           className="
             flex-1
             overflow-y-auto
@@ -307,9 +260,7 @@ export default function ChatLayout({
           "
         >
           <div className="mx-auto w-full max-w-4xl">
-            <ChatInput
-              conversationId={conversationId}
-            />
+            <ChatInput conversationId={conversationId} />
 
             <p className="mt-2 text-center text-[10px] text-slate-600">
               Mentora AI can make mistakes. Verify important
@@ -321,3 +272,4 @@ export default function ChatLayout({
     </div>
   );
 }
+
