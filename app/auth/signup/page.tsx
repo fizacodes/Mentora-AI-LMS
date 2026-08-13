@@ -32,7 +32,12 @@ const initialState :SignupState = {
 };
 
 export default function SignupPage() {
-  
+    const handleGoogleLogin = async () => {
+    await signIn("google", {
+      callbackUrl: "/student/dashboard",
+    });
+  };
+
   
 const [state, formAction, isPending] = useActionState(
   signupAction,
@@ -50,6 +55,7 @@ useEffect(() => {
     );
   }
 }, [state, router]);
+
 
   return (
     <main className="relative min-h-screen overflow-hidden bg-[#07111F]">
@@ -443,7 +449,7 @@ useEffect(() => {
 
             </div>
 
-            <button onClick={()=>signIn("google")}
+            <button onClick={handleGoogleLogin}
               className="
                 w-full
 

@@ -50,7 +50,7 @@ export async function loginAction(
     await signIn("credentials", {
       email,
       password,
-      redirectTo:"/dashboard",
+      redirectTo:"/student/dashboard",
     });
 
 

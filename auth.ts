@@ -78,49 +78,7 @@ async authorize(credentials) {
     role:user.role
   };
 }
-    }),
-    //   async authorize(credentials) {
-    //     // Check if credentials were provided
-    //       console.log("Credentials:", credentials);
-    //     if (!credentials?.email || !credentials?.password) {
-    //       return null;
-    //     }
-
-    //     // Find user
-    //     const user = await prisma.user.findUnique({
-    //       where: {
-    //         email: credentials.email as string,
-    //       },
-    //     });
-
-    //     if (!user) {
-    //       return null;
-    //     }
-
-    //     // Google users don't have a password
-    //     if (!user.password) {
-    //       return null;
-    //     }
-
-    //     // Compare password
-    //     const isPasswordValid = await bcrypt.compare(
-    //       credentials.password as string,
-    //       user.password
-    //     );
-
-    //     if (!isPasswordValid) {
-    //       return null;
-    //     }
-
-    //     // Return the authenticated user
-    //     return {
-    //       id: user.id,
-    //       name: user.name,
-    //       email: user.email,
-    //       role: user.role,
-    //     };
-    //   },
-    // }),
+    })
   ],
 
   callbacks: {
