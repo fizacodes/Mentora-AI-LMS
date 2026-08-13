@@ -35,7 +35,7 @@ const steps = [
 
 export default function HowItWorks() {
   return (
-    <section className="px-6 py-28">
+    <section className="px-6 py-28" id="howitworks">
       <div className="mx-auto max-w-7xl">
 
         <div className="text-center">

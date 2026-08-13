@@ -471,7 +471,7 @@ useEffect(() => {
               Already have an account?
 
               <Link
-                href="/login"
+                href="/auth/login"
                 className="ml-2 text-sky-400 hover:text-sky-300"
               >
                 Sign In

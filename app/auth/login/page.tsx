@@ -5,6 +5,7 @@ import { ArrowRight } from "lucide-react";
 import { useActionState } from "react";
 import { loginAction } from "@/actions/auth/authaction";
 import { signIn } from "next-auth/react";
+import Navbar from "@/app/components/Navbar";
 
 type ActionState={
   success:Boolean,
@@ -190,7 +191,7 @@ export default function LoginPage() {
         <p className="mt-4 text-center text-sm text-slate-400">
           Don't have an account?
           <Link
-            href="/signup"
+            href="/auth/signup"
             className="ml-2 font-medium text-sky-400 hover:text-sky-300"
           >
             Create Account

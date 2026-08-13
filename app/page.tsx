@@ -1,4 +1,5 @@
 import AIShowcase from "./components/AIShowcase";
+import Contact from "./components/Contact";
 import Features from "./components/Features";
 import Hero from "./components/Hero";
 import HowItWorks from "./components/HowItWork";
@@ -14,6 +15,7 @@ export default function Home() {
       <Features/>
       <HowItWorks/>
       <AIShowcase/>
+      <Contact/>
     </main>
   );
 }
