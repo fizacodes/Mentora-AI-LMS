@@ -70,7 +70,7 @@ export async function getStudentDashboard(
         ? 0
         : Math.round(
             (completedLessons / totalLessons) * 100
-          );
+          );                         
 
     // Find first incomplete lesson
     const nextLesson = lessons.find(

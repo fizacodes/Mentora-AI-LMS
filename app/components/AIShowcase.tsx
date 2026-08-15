@@ -27,7 +27,7 @@ const features = [
 
 export default function AIShowcase() {
   return (
-    <section className="relative min-h-screen overflow-hidden px-6 py-20" id="about">
+    <section className="relative min-h-screen overflow-hidden px-6 py-10" id="about">
       {/* Background Glow */}
       <div className="absolute left-1/2 top-1/2 h-[450px] w-[450px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-sky-500/10 blur-[120px]" />
 
