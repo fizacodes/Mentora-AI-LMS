@@ -9,7 +9,7 @@ import { verifyOtpAction } from "@/actions/auth/verifyOtp";
 type ActionState = {
   success: boolean;
   message: string;
-  errors: Record<string, string>;
+  errors: Record<string, string[]>;
 };
 
 const initialState: ActionState = {
@@ -38,6 +38,9 @@ export default function VerifyOtpForm({ email }: { email: string }) {
 
   return (
     <form action={formAction} className="space-y-5">
+      {/* Email */}
+      <input type="hidden" name="email" value={email} />
+
       {/* OTP */}
       <div>
         <label
@@ -50,10 +53,13 @@ export default function VerifyOtpForm({ email }: { email: string }) {
         <input
           id="otp"
           name="otp"
+          type="text"
           maxLength={6}
           placeholder="000000"
           inputMode="numeric"
           autoComplete="one-time-code"
+          pattern="[0-9]{6}"
+          required
           className="
             w-full
             rounded-xl
