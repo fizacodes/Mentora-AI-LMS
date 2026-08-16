@@ -27,7 +27,7 @@ export default function EnrollButton({
 
   useEffect(() => {
     if (state.success) {
-      router.push("/student/courses/enrolled");
+      router.push("/student/course/enrolled");
     }
   }, [state, router]);
 

@@ -26,38 +26,31 @@ type Props = {
   quiz: Quiz;
 };
 
-export default function QuizForm({
-  quiz,
-}: Props) {
-  const [answers, setAnswers] = useState<
-    Record<string, string>
-  >({});
+export default function QuizForm({ quiz }: Props) {
+  const [answers, setAnswers] = useState<Record<string, string>>({});
 
-  const [result, setResult] =
-    useState<QuizResult | null>(null);
+  const [result, setResult] = useState<QuizResult | null>(null);
 
-  function handleAnswer(
-    questionId: string,
-    answer: string
-  ) {
+  function handleAnswer(questionId: string, answer: string) {
     setAnswers((previous) => ({
       ...previous,
       [questionId]: answer,
     }));
   }
 
-  const formattedAnswers =
-    quiz.questions
-      .filter(
-        (question) =>
-          answers[question.id] !== undefined
-      )
-      .map((question) => ({
-        questionId: question.id,
-        answer: answers[question.id],
-      }));
+  const formattedAnswers = quiz.questions
+    .filter(
+      (question) => answers[question.id] !== undefined
+    )
+    .map((question) => ({
+      questionId: question.id,
+      answer: answers[question.id],
+    }));
 
-  // Show result after submitting
+  // =========================
+  // QUIZ RESULT
+  // =========================
+
   if (result) {
     return (
       <div className="overflow-hidden rounded-2xl border border-slate-800 bg-[#081B2D] shadow-2xl shadow-black/20">
@@ -181,6 +174,10 @@ export default function QuizForm({
     );
   }
 
+  // =========================
+  // QUIZ
+  // =========================
+
   return (
     <div className="space-y-5">
       {/* Quiz Progress */}
@@ -203,49 +200,66 @@ export default function QuizForm({
       </div>
 
       {/* Questions */}
-      {quiz.questions.map(
-        (question, index) => {
-          const options =
-            question.options as string[];
+      {quiz.questions.map((question, index) => {
+        const options = question.options as string[];
 
-          return (
-            <div
-              key={question.id}
-              className="
-                overflow-hidden
-                rounded-2xl
-                border
-                border-slate-800
-                bg-[#081B2D]
-                shadow-lg
-                shadow-black/10
-                transition
-                hover:border-slate-700
-              "
-            >
-              {/* Question Header */}
-              <div className="border-b border-slate-800 bg-[#0B2340]/50 px-5 py-4 sm:px-6">
-                <div className="flex items-start gap-4">
-                  <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-sky-400/10 text-sm font-bold text-sky-400">
-                    {index + 1}
-                  </div>
-
-                  <h2 className="pt-1 text-base font-semibold leading-6 text-white sm:text-lg">
-                    {question.question}
-                  </h2>
+        return (
+          <div
+            key={question.id}
+            className="
+              overflow-hidden
+              rounded-2xl
+              border
+              border-slate-800
+              bg-[#081B2D]
+              shadow-lg
+              shadow-black/10
+              transition
+              hover:border-slate-700
+            "
+          >
+            {/* Question Header */}
+            <div className="border-b border-slate-800 bg-[#0B2340]/50 px-5 py-4 sm:px-6">
+              <div className="flex items-start gap-4">
+                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-sky-400/10 text-sm font-bold text-sky-400">
+                  {index + 1}
                 </div>
+
+                <h2 className="pt-1 text-base font-semibold leading-6 text-white sm:text-lg">
+                  {question.question}
+                </h2>
               </div>
+            </div>
 
-              {/* Options */}
-              <div className="space-y-3 p-5 sm:p-6">
-                {options.map((option, optionIndex) => {
-                  const selected =
-                    answers[question.id] ===
-                    option;
+            {/* Options */}
+            <div className="space-y-3 p-5 sm:p-6">
+              {options.map((option, optionIndex) => {
+                const selected =
+                  answers[question.id] === option;
 
-                  return (
+                const inputId = `${question.id}-${optionIndex}`;
+
+                return (
+                  <div key={option}>
+                    {/* Radio Input */}
+                    <input
+                      id={inputId}
+                      type="radio"
+                      name={question.id}
+                      value={option}
+                      checked={selected}
+                      onChange={() =>
+                        handleAnswer(
+                          question.id,
+                          option
+                        )
+                      }
+                      className="sr-only"
+                    />
+
+                    {/* Clickable Option */}
                     <label
-                      key={option}
+                      htmlFor={inputId}
                       className={`
                         group
                         flex
@@ -265,7 +279,7 @@ export default function QuizForm({
                         }
                       `}
                     >
-                      {/* Radio */}
+                      {/* Radio Visual */}
                       <div
                         className={`
                           flex
@@ -289,23 +303,7 @@ export default function QuizForm({
                         )}
                       </div>
 
-                      <input
-                        type="radio"
-                        name={question.id}
-                        value={option}
-                        checked={
-                          answers[question.id] ===
-                          option
-                        }
-                        onChange={() =>
-                          handleAnswer(
-                            question.id,
-                            option
-                          )
-                        }
-                        className="sr-only"
-                      />
-
+                      {/* Option Text */}
                       <span
                         className={`
                           flex
@@ -322,6 +320,7 @@ export default function QuizForm({
                           }
                         `}
                       >
+                        {/* A / B / C / D */}
                         <span
                           className={`
                             flex
@@ -348,16 +347,29 @@ export default function QuizForm({
                         <span>{option}</span>
                       </span>
                     </label>
-                  );
-                })}
-              </div>
+                  </div>
+                );
+              })}
             </div>
-          );
-        }
-      )}
+          </div>
+        );
+      })}
 
       {/* Submit */}
-      <div className="sticky bottom-0 -mx-1 mt-7 border-t border-slate-800 bg-[#061521]/95 px-1 py-5 backdrop-blur-md">
+      <div
+        className="
+          sticky
+          bottom-0
+          -mx-1
+          mt-7
+          border-t
+          border-slate-800
+          bg-[#061521]/95
+          px-1
+          py-5
+          backdrop-blur-md
+        "
+      >
         <div className="flex items-center justify-between gap-4">
           <p className="hidden text-sm text-slate-500 sm:block">
             Answer all questions before submitting.
@@ -367,9 +379,7 @@ export default function QuizForm({
             <SubmitQuizButton
               quizId={quiz.id}
               answers={formattedAnswers}
-              totalQuestions={
-                quiz.questions.length
-              }
+              totalQuestions={quiz.questions.length}
               onSuccess={(quizResult) => {
                 setResult(quizResult);
               }}

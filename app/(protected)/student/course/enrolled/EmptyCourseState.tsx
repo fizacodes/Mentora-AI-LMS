@@ -13,7 +13,7 @@ export default function EmptyCourseState() {
       </p>
 
       <Link
-        href="/student/courses"
+        href="/student/course"
         className="mt-6 rounded-xl bg-sky-600 px-6 py-3 text-white"
       >
         Explore Courses
