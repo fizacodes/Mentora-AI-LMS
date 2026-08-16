@@ -2,7 +2,11 @@
 
 import { useState } from "react";
 import { submitQuizAction } from "@/actions/students/course/quizAction";
-import { AlertCircle, CheckCircle2, Loader2 } from "lucide-react";
+import {
+  AlertCircle,
+  CheckCircle2,
+  Loader2,
+} from "lucide-react";
 
 type QuizResult = {
   score: number;
@@ -34,6 +38,8 @@ export default function SubmitQuizButton({
     useState<string | null>(null);
 
   async function handleSubmit() {
+    if (submitting) return;
+
     setError(null);
 
     if (answers.length !== totalQuestions) {
@@ -43,26 +49,36 @@ export default function SubmitQuizButton({
       return;
     }
 
-    setSubmitting(true);
+    try {
+      setSubmitting(true);
 
-    const result = await submitQuizAction({
-      quizId,
-      answers,
-    });
+      const result = await submitQuizAction({
+        quizId,
+        answers,
+      });
 
-    setSubmitting(false);
+      if (!result.success) {
+        setError(result.message);
+        return;
+      }
 
-    if (!result.success) {
-      setError(result.message);
-      return;
+      onSuccess(result.data);
+    } catch (error) {
+      console.error(
+        "Quiz submission error:",
+        error
+      );
+
+      setError(
+        "Something went wrong while submitting the quiz."
+      );
+    } finally {
+      setSubmitting(false);
     }
-
-    onSuccess(result.data);
   }
 
   return (
-    <div className="flex w-full flex-col items-end gap-3">
-      {/* Error */}
+    <div className="flex w-full flex-col items-end gap-3 sm:w-auto">
       {error && (
         <div
           className="
@@ -78,6 +94,7 @@ export default function SubmitQuizButton({
             py-3
             text-sm
             text-red-400
+            sm:w-auto
           "
         >
           <AlertCircle
@@ -89,7 +106,6 @@ export default function SubmitQuizButton({
         </div>
       )}
 
-      {/* Submit Button */}
       <button
         type="button"
         onClick={handleSubmit}

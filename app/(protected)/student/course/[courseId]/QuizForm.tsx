@@ -27,11 +27,16 @@ type Props = {
 };
 
 export default function QuizForm({ quiz }: Props) {
-  const [answers, setAnswers] = useState<Record<string, string>>({});
+  const [answers, setAnswers] =
+    useState<Record<string, string>>({});
 
-  const [result, setResult] = useState<QuizResult | null>(null);
+  const [result, setResult] =
+    useState<QuizResult | null>(null);
 
-  function handleAnswer(questionId: string, answer: string) {
+  function handleAnswer(
+    questionId: string,
+    answer: string
+  ) {
     setAnswers((previous) => ({
       ...previous,
       [questionId]: answer,
@@ -40,28 +45,63 @@ export default function QuizForm({ quiz }: Props) {
 
   const formattedAnswers = quiz.questions
     .filter(
-      (question) => answers[question.id] !== undefined
+      (question) =>
+        answers[question.id] !== undefined
     )
     .map((question) => ({
       questionId: question.id,
       answer: answers[question.id],
     }));
 
-  // =========================
-  // QUIZ RESULT
-  // =========================
+  /*
+   * =========================
+   * QUIZ RESULT
+   * =========================
+   */
 
   if (result) {
     return (
-      <div className="overflow-hidden rounded-2xl border border-slate-800 bg-[#081B2D] shadow-2xl shadow-black/20">
+      <div
+        className="
+          overflow-hidden
+          rounded-2xl
+          border
+          border-slate-800
+          bg-[#081B2D]
+          shadow-2xl
+          shadow-black/20
+        "
+      >
         {/* Result Header */}
-        <div className="border-b border-slate-800 bg-gradient-to-br from-[#0B2340] to-[#081B2D] px-6 py-8 text-center sm:px-10">
+        <div
+          className="
+            border-b
+            border-slate-800
+            bg-gradient-to-br
+            from-[#0B2340]
+            to-[#081B2D]
+            px-6
+            py-8
+            text-center
+            sm:px-10
+          "
+        >
           <div
-            className={`mx-auto flex h-16 w-16 items-center justify-center rounded-2xl border ${
-              result.passed
-                ? "border-emerald-400/20 bg-emerald-400/10"
-                : "border-red-400/20 bg-red-400/10"
-            }`}
+            className={`
+              mx-auto
+              flex
+              h-16
+              w-16
+              items-center
+              justify-center
+              rounded-2xl
+              border
+              ${
+                result.passed
+                  ? "border-emerald-400/20 bg-emerald-400/10"
+                  : "border-red-400/20 bg-red-400/10"
+              }
+            `}
           >
             <span className="text-2xl">
               {result.passed ? "✓" : "!"}
@@ -77,7 +117,7 @@ export default function QuizForm({ quiz }: Props) {
           </h2>
 
           <p className="mt-2 text-sm text-slate-400">
-            Here&apos;s how you performed on this
+            Here's how you performed on this
             knowledge check.
           </p>
         </div>
@@ -97,7 +137,16 @@ export default function QuizForm({ quiz }: Props) {
 
           {/* Stats */}
           <div className="mt-8 grid grid-cols-2 gap-3">
-            <div className="rounded-xl border border-slate-800 bg-[#061521] p-4 text-center">
+            <div
+              className="
+                rounded-xl
+                border
+                border-slate-800
+                bg-[#061521]
+                p-4
+                text-center
+              "
+            >
               <p className="text-xs uppercase tracking-wider text-slate-500">
                 Passing Score
               </p>
@@ -107,7 +156,16 @@ export default function QuizForm({ quiz }: Props) {
               </p>
             </div>
 
-            <div className="rounded-xl border border-slate-800 bg-[#061521] p-4 text-center">
+            <div
+              className="
+                rounded-xl
+                border
+                border-slate-800
+                bg-[#061521]
+                p-4
+                text-center
+              "
+            >
               <p className="text-xs uppercase tracking-wider text-slate-500">
                 Correct
               </p>
@@ -121,7 +179,17 @@ export default function QuizForm({ quiz }: Props) {
 
           {/* Status */}
           {result.passed ? (
-            <div className="mt-6 rounded-xl border border-emerald-400/20 bg-emerald-400/10 px-4 py-4">
+            <div
+              className="
+                mt-6
+                rounded-xl
+                border
+                border-emerald-400/20
+                bg-emerald-400/10
+                px-4
+                py-4
+              "
+            >
               <p className="text-center font-semibold text-emerald-400">
                 🎉 Congratulations! You passed.
               </p>
@@ -131,7 +199,17 @@ export default function QuizForm({ quiz }: Props) {
               </p>
             </div>
           ) : (
-            <div className="mt-6 rounded-xl border border-red-400/20 bg-red-400/10 px-4 py-4">
+            <div
+              className="
+                mt-6
+                rounded-xl
+                border
+                border-red-400/20
+                bg-red-400/10
+                px-4
+                py-4
+              "
+            >
               <p className="text-center font-semibold text-red-400">
                 You did not pass the quiz.
               </p>
@@ -174,14 +252,28 @@ export default function QuizForm({ quiz }: Props) {
     );
   }
 
-  // =========================
-  // QUIZ
-  // =========================
+  /*
+   * =========================
+   * QUIZ
+   * =========================
+   */
 
   return (
-    <div className="space-y-5">
+    <div className="w-full space-y-5">
       {/* Quiz Progress */}
-      <div className="flex items-center justify-between rounded-xl border border-slate-800 bg-[#081B2D] px-5 py-4">
+      <div
+        className="
+          flex
+          items-center
+          justify-between
+          rounded-xl
+          border
+          border-slate-800
+          bg-[#081B2D]
+          px-5
+          py-4
+        "
+      >
         <div>
           <p className="text-xs font-semibold uppercase tracking-wider text-slate-500">
             Assessment
@@ -192,7 +284,16 @@ export default function QuizForm({ quiz }: Props) {
           </p>
         </div>
 
-        <div className="rounded-full border border-sky-400/20 bg-sky-400/10 px-3 py-1.5">
+        <div
+          className="
+            rounded-full
+            border
+            border-sky-400/20
+            bg-sky-400/10
+            px-3
+            py-1.5
+          "
+        >
           <span className="text-xs font-semibold text-sky-400">
             Passing: {quiz.passingScore}%
           </span>
@@ -201,10 +302,14 @@ export default function QuizForm({ quiz }: Props) {
 
       {/* Questions */}
       {quiz.questions.map((question, index) => {
-        const options = question.options as string[];
+        const options = Array.isArray(
+          question.options
+        )
+          ? (question.options as string[])
+          : [];
 
         return (
-          <div
+          <section
             key={question.id}
             className="
               overflow-hidden
@@ -214,18 +319,48 @@ export default function QuizForm({ quiz }: Props) {
               bg-[#081B2D]
               shadow-lg
               shadow-black/10
-              transition
-              hover:border-slate-700
             "
           >
             {/* Question Header */}
-            <div className="border-b border-slate-800 bg-[#0B2340]/50 px-5 py-4 sm:px-6">
+            <div
+              className="
+                border-b
+                border-slate-800
+                bg-[#0B2340]/50
+                px-5
+                py-4
+                sm:px-6
+              "
+            >
               <div className="flex items-start gap-4">
-                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-sky-400/10 text-sm font-bold text-sky-400">
+                <div
+                  className="
+                    flex
+                    h-9
+                    w-9
+                    shrink-0
+                    items-center
+                    justify-center
+                    rounded-lg
+                    bg-sky-400/10
+                    text-sm
+                    font-bold
+                    text-sky-400
+                  "
+                >
                   {index + 1}
                 </div>
 
-                <h2 className="pt-1 text-base font-semibold leading-6 text-white sm:text-lg">
+                <h2
+                  className="
+                    pt-1
+                    text-base
+                    font-semibold
+                    leading-6
+                    text-white
+                    sm:text-lg
+                  "
+                >
                   {question.question}
                 </h2>
               </div>
@@ -233,36 +368,26 @@ export default function QuizForm({ quiz }: Props) {
 
             {/* Options */}
             <div className="space-y-3 p-5 sm:p-6">
-              {options.map((option, optionIndex) => {
-                const selected =
-                  answers[question.id] === option;
+              {options.map(
+                (option, optionIndex) => {
+                  const selected =
+                    answers[question.id] ===
+                    option;
 
-                const inputId = `${question.id}-${optionIndex}`;
-
-                return (
-                  <div key={option}>
-                    {/* Radio Input */}
-                    <input
-                      id={inputId}
-                      type="radio"
-                      name={question.id}
-                      value={option}
-                      checked={selected}
-                      onChange={() =>
+                  return (
+                    <button
+                      key={`${question.id}-${optionIndex}`}
+                      type="button"
+                      onClick={() =>
                         handleAnswer(
                           question.id,
                           option
                         )
                       }
-                      className="sr-only"
-                    />
-
-                    {/* Clickable Option */}
-                    <label
-                      htmlFor={inputId}
                       className={`
                         group
                         flex
+                        w-full
                         cursor-pointer
                         items-center
                         gap-4
@@ -270,8 +395,12 @@ export default function QuizForm({ quiz }: Props) {
                         border
                         px-4
                         py-3.5
+                        text-left
                         transition-all
                         duration-200
+                        focus:outline-none
+                        focus:ring-2
+                        focus:ring-sky-400/20
                         ${
                           selected
                             ? "border-sky-400/50 bg-sky-400/10 shadow-sm shadow-sky-900/20"
@@ -280,7 +409,7 @@ export default function QuizForm({ quiz }: Props) {
                       `}
                     >
                       {/* Radio Visual */}
-                      <div
+                      <span
                         className={`
                           flex
                           h-5
@@ -299,11 +428,11 @@ export default function QuizForm({ quiz }: Props) {
                         `}
                       >
                         {selected && (
-                          <div className="h-2 w-2 rounded-full bg-[#061521]" />
+                          <span className="h-2 w-2 rounded-full bg-[#061521]" />
                         )}
-                      </div>
+                      </span>
 
-                      {/* Option Text */}
+                      {/* Option */}
                       <span
                         className={`
                           flex
@@ -320,7 +449,7 @@ export default function QuizForm({ quiz }: Props) {
                           }
                         `}
                       >
-                        {/* A / B / C / D */}
+                        {/* A/B/C/D */}
                         <span
                           className={`
                             flex
@@ -344,47 +473,55 @@ export default function QuizForm({ quiz }: Props) {
                           )}
                         </span>
 
-                        <span>{option}</span>
+                        <span className="break-words">
+                          {option}
+                        </span>
                       </span>
-                    </label>
-                  </div>
-                );
-              })}
+                    </button>
+                  );
+                }
+              )}
             </div>
-          </div>
+          </section>
         );
       })}
 
       {/* Submit */}
       <div
         className="
-          sticky
-          bottom-0
-          -mx-1
           mt-7
           border-t
           border-slate-800
-          bg-[#061521]/95
+          bg-[#061521]
           px-1
           py-5
-          backdrop-blur-md
         "
       >
-        <div className="flex items-center justify-between gap-4">
-          <p className="hidden text-sm text-slate-500 sm:block">
-            Answer all questions before submitting.
+        <div
+          className="
+            flex
+            flex-col
+            gap-4
+            sm:flex-row
+            sm:items-center
+            sm:justify-between
+          "
+        >
+          <p className="text-sm text-slate-500">
+            {formattedAnswers.length ===
+            quiz.questions.length
+              ? "All questions answered."
+              : `Answered ${formattedAnswers.length} of ${quiz.questions.length} questions.`}
           </p>
 
-          <div className="ml-auto">
-            <SubmitQuizButton
-              quizId={quiz.id}
-              answers={formattedAnswers}
-              totalQuestions={quiz.questions.length}
-              onSuccess={(quizResult) => {
-                setResult(quizResult);
-              }}
-            />
-          </div>
+          <SubmitQuizButton
+            quizId={quiz.id}
+            answers={formattedAnswers}
+            totalQuestions={quiz.questions.length}
+            onSuccess={(quizResult) => {
+              setResult(quizResult);
+            }}
+          />
         </div>
       </div>
     </div>

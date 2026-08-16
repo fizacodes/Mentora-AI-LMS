@@ -1,6 +1,9 @@
 import { getQuizAction } from "@/actions/students/course/quizAction";
 import QuizForm from "./QuizForm";
-import { AlertCircle, ClipboardCheck } from "lucide-react";
+import {
+  AlertCircle,
+  ClipboardCheck,
+} from "lucide-react";
 
 type Props = {
   courseId: string;
@@ -60,9 +63,8 @@ export default async function QuizViewer({
   const quiz = result.data;
 
   return (
-    <div className="min-h-full bg-[#061521] px-4 py-8 sm:px-6 lg:px-8">
+    <div className="bg-[#061521] px-4 py-8 sm:px-6 lg:px-8">
       <div className="mx-auto w-full max-w-4xl">
-
         {/* Quiz Header */}
         <header
           className="
@@ -76,15 +78,18 @@ export default async function QuizViewer({
         >
           <div className="p-6 sm:p-7">
             <div className="flex items-start gap-4">
-              
               {/* Icon */}
               <div
                 className="
-                  flex h-11 w-11
+                  flex
+                  h-11
+                  w-11
                   shrink-0
-                  items-center justify-center
+                  items-center
+                  justify-center
                   rounded-xl
-                  border border-sky-400/20
+                  border
+                  border-sky-400/20
                   bg-sky-400/10
                   text-sky-400
                 "
@@ -146,7 +151,6 @@ export default async function QuizViewer({
 
         {/* Quiz */}
         <QuizForm quiz={quiz} />
-
       </div>
     </div>
   );
