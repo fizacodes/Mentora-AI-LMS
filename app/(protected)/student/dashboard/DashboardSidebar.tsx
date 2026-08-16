@@ -38,7 +38,7 @@ const navigation = [
   },
   {
     label: "Progress",
-    href: "/student/progess",
+    href: "/student/progress",
     icon: BarChart3,
   }
 ];
