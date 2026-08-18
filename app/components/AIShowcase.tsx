@@ -1,12 +1,12 @@
 import {
   Brain,
   BookOpen,
- Sparkles,
+  Sparkles,
   BarChart3,
   Target,
   ArrowRight,
 } from "lucide-react";
-
+import Image from "next/image";
 const features = [
   {
     icon: Brain,
@@ -22,12 +22,15 @@ const features = [
     icon: BarChart3,
     title: "Progress Tracking",
     description: "Monitor your learning journey with detailed insights.",
-  }
+  },
 ];
 
 export default function AIShowcase() {
   return (
-    <section className="relative min-h-screen overflow-hidden px-6 py-10" id="about">
+    <section
+      className="relative min-h-screen overflow-hidden px-6 py-10"
+      id="about"
+    >
       {/* Background Glow */}
       <div className="absolute left-1/2 top-1/2 h-[450px] w-[450px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-sky-500/10 blur-[120px]" />
 
@@ -96,9 +99,11 @@ export default function AIShowcase() {
 
             {/* Dashboard */}
             <div className="relative w-full max-w-xl rounded-[32px] border border-white/10 bg-white/[0.05] p-5 backdrop-blur-xl shadow-[0_20px_80px_rgba(56,189,248,.15)]">
-              <img
+              <Image
                 src="/image.png"
                 alt="Mentora Dashboard"
+                width={534}
+                height={356}
                 className="w-full rounded-2xl object-cover"
               />
             </div>
