@@ -1,36 +1,91 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Mentora AI
 
-## Getting Started
+**Mentora AI** is an AI-powered Learning Management System built to help students
+discover courses, learn through structured lessons, practice with AI-generated
+quizzes, and interact with an AI tutor.
 
-First, run the development server:
+[🌐 Live Demo](https://mentora-ai-lms.vercel.app/) 
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+---
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Features
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- 🤖 **AI Tutor** — Chat with an AI tutor and maintain conversation history.
+- 📚 **AI Course Generation** — Generate structured courses with modules and lessons.
+- 🔎 **Course Discovery** — Search and explore AI-generated courses.
+- 📝 **AI-Generated Quizzes** — Generate quizzes based on course lessons.
+- 🎓 **Course Enrollment** — Enroll in courses and access enrolled content.
+- 📊 **Student Dashboard** — View enrolled courses and learning activity.
+- 🔐 **Authentication** — Google OAuth and email/password authentication.
+- ✉️ **Email OTP Verification** — Secure verification flow for credential-based registration.
+- 👤 **User Profiles** — Manage student profile information.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+## Tech Stack
 
-To learn more about Next.js, take a look at the following resources:
+**Frontend**
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- Next.js
+- React
+- TypeScript
+- Tailwind CSS
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+**Backend**
 
-## Deploy on Vercel
+- Next.js Server Actions
+- Prisma ORM
+- PostgreSQL
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+**AI**
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- LangChain
+- LLM APIs
+
+**Authentication & Services**
+
+- Auth.js
+- Google OAuth
+- Resend
+
+**Deployment**
+
+- Vercel
+- Docker
+
+---
+
+## Architecture
+
+```text
+Next.js
+   │
+   ├── Server Actions
+   │       │
+   │       ├── Authentication
+   │       ├── Courses
+   │       ├── Enrollment
+   │       ├── Quizzes
+   │       └── AI Chat
+   │
+   ├── Prisma
+   │       │
+   │       └── PostgreSQL
+   │
+   └── AI Services
+           │
+           └── LangChain + LLM
+
+
+## About
+
+Mentora AI was built as a full-stack AI application using **Next.js, TypeScript,
+PostgreSQL, Prisma, and LangChain**, with a focus on combining traditional LMS
+features with AI-powered learning experiences.
+
+---
+
+## Author
+
+**Fiza**  
+AI Full-Stack Developer
