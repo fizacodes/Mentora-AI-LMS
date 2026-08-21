@@ -77,21 +77,6 @@ Next.js
 
 ---
 
-## Screenshots
-
-### Landing Page
-
-![Mentora AI Landing Page](./screenshots/landing-page.png)
-
-### Student Dashboard
-
-![Mentora AI Dashboard](./screenshots/dashboard.png)
-
-### AI Tutor
-
-![Mentora AI Tutor](./screenshots/ai-tutor.png)
-
----
 
 ## About
 
